@@ -1,5 +1,5 @@
 
-import * as THREE from 'three';
+import * as THREE from './three.module-149.js';
 import RAPIER from './rapier3d-compat.js';
 
 export function getColliderDesc(world, scene, f, width, height, depth, color=0x333333) {
