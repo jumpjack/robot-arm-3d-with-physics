@@ -8,9 +8,18 @@
   
   </head>
   <body class="bg-black overflow-hidden">
-<script type="module">
-  import three from 'https://cdn.skypack.dev/three';
-</script> 
+<script async src="https://unpkg.com/es-module-shims@1.6.3/dist/es-module-shims.js"></script>
+
+<script type="importmap">
+  {
+		"imports": {
+			"three": "https://cdn.skypack.dev/three@0.149.0/build/three.module",
+      "three/": "https://cdn.skypack.dev/three@0.149.0/",      
+      "dat.gui": "https://cdn.skypack.dev/dat.gui"
+		}
+	}
+</script>
+
 <script type="module" src="main.js"></script>
   </body>
 </html>
