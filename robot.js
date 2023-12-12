@@ -86,26 +86,23 @@ export class Robot {
 
             let q = this.parts[i].r.rotation();
 //console.log( this.parts[i], this.parts[i].r.rotation());
-            
-const quaternion = this.parts[i].r.rotation();
-
-// Creare un oggetto Quaternion da rapier
-const threeQuaternion = new THREE.Quaternion(quaternion.x, quaternion.y, quaternion.z, quaternion.w);
+                       
+            let q1 = new THREE.Quaternion();
+            q1.set(q.x, q.y, q.z, q.w);
 
 // Creare un oggetto Euler per ottenere gli angoli di inclinazione
 const euler = new THREE.Euler();
-euler.setFromQuaternion(threeQuaternion);
+euler.setFromQuaternion(q1);
 
 // Ora hai gli angoli di inclinazione pitch, yaw e roll
 const pitch = euler.x;
 const yaw = euler.y;
 const roll = euler.z;
-            
-spnDebug.innerHTML = pitch*180/3.14 + ", " +yaw*180/3.14 + ", " + roll*180/3.14;
-            
-            let q1 = new THREE.Quaternion();
-            q1.set(q.x, q.y, q.z, q.w);
 
+            
+spnDebug.innerHTML += i + ": " + pitch*180/3.14 + ", " +yaw*180/3.14 + ", " + roll*180/3.14 + "<br>";
+
+            
             let p = this.parts[i].r.translation();
             let p1 = new THREE.Vector3();
             p1.set(p.x, p.y, p.z);
