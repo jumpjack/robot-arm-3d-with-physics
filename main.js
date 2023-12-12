@@ -57,6 +57,7 @@ async function init() {
         camera.aspect = w / h;
         camera.updateProjectionMatrix();
         renderer.setSize(w, h);
+        spnDebug.innerHTML = "";
         render();
     });
 
