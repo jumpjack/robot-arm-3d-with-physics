@@ -1,5 +1,5 @@
 
-import * as THREE from 'three';
+import * as THREE from './three.module-149.js';
 import RAPIER from './rapier3d-compat.js';
 //import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import {  OrbitControls} from './OrbitControls-149.js';
