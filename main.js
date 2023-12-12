@@ -102,7 +102,7 @@ async function init() {
     transform_ctrl.addEventListener('change', render);
     transform_ctrl.addEventListener('dragging-changed', function (event) {
         controls.enabled = ! event.value;
-        spnDebug.innerHTML = "";
+        
     });
     transform_ctrl.size = 0.75
     transform_ctrl.setSpace("local");
@@ -283,6 +283,4 @@ window.addEventListener('keydown', function(event) {
 });
 
 
-function debugShow(text) {
-    spnDebug.innerHTML = text;
-}
+
