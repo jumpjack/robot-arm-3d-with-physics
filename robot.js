@@ -87,7 +87,7 @@ export class Robot {
             let q = this.parts[i].r.rotation();
 //console.log( this.parts[i], this.parts[i].r.rotation());
             
-const quaternion = this.parts[i].r.orientation;
+const quaternion = this.parts[i].r.rotation();
 
 // Creare un oggetto Quaternion da rapier
 const threeQuaternion = new THREE.Quaternion(quaternion.x, quaternion.y, quaternion.z, quaternion.w);
