@@ -13,6 +13,8 @@ import { Robot } from './robot.js'
 import * as utils from './rapier_utils.js'
 
 let container;
+let spnDebug;
+
 let camera, scene, renderer, controls;
 //
 let transform_ctrl;
@@ -31,12 +33,14 @@ await init();
 async function init() {
 
     container = document.querySelector('body');
+    spnDebug = document.getElementById('spnDebug');
+    spnDebug.innerHTML  = "debug";
 
     renderer = new THREE.WebGLRenderer({antialias: true});
     renderer.setPixelRatio(window.devicePixelRatio);
 
-    let w = window.visualViewport.width;
-    let h = window.visualViewport.height;
+    let w = 640; //window.visualViewport.width;
+    let h = 480; //window.visualViewport.height;
     // console.log("size", w, h, window.innerWidth, window.innerHeight);
     renderer.setSize(w, h);
     renderer.shadowMap.enabled = true;
@@ -275,3 +279,8 @@ window.addEventListener('keydown', function(event) {
         target_rotation = q;
     }
 });
+
+
+function debugShow(text) {
+    spnDebug.innerHTML = text;
+}
