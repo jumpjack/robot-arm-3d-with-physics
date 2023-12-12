@@ -6,7 +6,7 @@ import {
   OrbitControls
 } from 'three/examples/jsm/controls/OrbitControls';
 //import { TransformControls } from 'three/addons/controls/TransformControls.js';
-import { TransformControls } from ''three/examples/jsm/controls/TransformControls.js';
+import { TransformControls } from 'three/examples/jsm/controls/TransformControls.js';
 import { Robot } from './robot.js'
 import * as utils from './rapier_utils.js'
 
