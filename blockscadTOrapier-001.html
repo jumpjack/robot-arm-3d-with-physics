@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rapier.js Example</title>
+</head>
+<body>
+
+<script type="module">
+	import * as THREE from './three.module-149.js';
+	import {  OrbitControls} from './OrbitControls-149.js';
+	import { TransformControls } from './TransformControls-149.js';
+	import RAPIER from './rapier3d-compat.js';
+	import * as utils from './rapier_utils.js'	
+    import { World, RigidBodyDesc, ColliderDesc, RigidBodySet, ColliderSet } from './rapier3d-compat.js';
+
+    // Crea un nuovo mondo
+    const world = new World({ gravity: [0, -9.81, 0] });
+
+    // Aggiungi una sfera come corpo rigido
+    const sphereDesc = RigidBodyDesc.newDynamic().setTranslation([0, 0, 0]);
+    const sphereRigidBody = world.createRigidBody(sphereDesc);
+    const sphereColliderDesc = ColliderDesc.ball(10); // raggio della sfera
+    const sphereCollider = world.createCollider(sphereColliderDesc, sphereRigidBody.handle);
+
+    // Aggiungi un cubo come corpo rigido
+    const cubeDesc = RigidBodyDesc.newDynamic().setTranslation([20, 0, 0]); // posiziona il cubo a lato della sfera
+    const cubeRigidBody = world.createRigidBody(cubeDesc);
+    const cubeColliderDesc = ColliderDesc.cuboid([5, 5, 5]); // dimensioni del cubo
+    const cubeCollider = world.createCollider(cubeColliderDesc, cubeRigidBody.handle);
+
+    // Simula il mondo per un passo di tempo
+    world.step();
+
+    // Ora puoi accedere alle posizioni e ad altre informazioni dei corpi rigidi, se necessario
+    const spherePosition = sphereRigidBody.translation();
+    const cubePosition = cubeRigidBody.translation();
+
+    console.log('Sphere Position:', spherePosition);
+    console.log('Cube Position:', cubePosition);
+</script>
+</body>
+</html>
+
