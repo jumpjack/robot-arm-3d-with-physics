@@ -101,7 +101,7 @@ const yaw = euler.y;
 const roll = euler.z;
 
      
-    spnDebug.innerHTML += i + ": " + pitch*180/3.14 + ", " +yaw*180/3.14 + ", " + roll*180/3.14 + "<br>";
+    spnDebug.innerHTML += i + ": " + (pitch*180/3.14).toFixed(0) + ", " + (yaw*180/3.14).toFixed(0) + ", " + (roll*180/3.14).toFixed(0) + "<br>";
 
             
             let p = this.parts[i].r.translation();
