@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fisica 3D con Rapier3D.js e OpenJsCAD</title>
+</head>
+<body>
+  <script type="module">
+    import init, * as rapier3d from './rapier3d-compat.js';
+
+    // Inizializza Rapier3D.js
+    init().then(() => {
+      // Crea il mondo fisico
+      const gravity = new rapier3d.Vector3(0.0, -9.81, 0.0);
+      const world = new rapier3d.World(gravity);
+
+      // Crea un oggetto 3D con OpenJsCAD (es. una sfera su un cubo)
+      var sphere = CSG.sphere({radius: 1});
+      var cube = CSG.cube({corner1: [0, 0, 0], corner2: [2, 2, 2]});
+      var result = sphere.union(cube);
+
+      // Converte il risultato di OpenJsCAD in un oggetto 3D per Rapier3D.js
+      const resultVertices = result.toPolygons().map(face => {
+        return face.vertices.map(vertex => {
+          return new rapier3d.Vector3(vertex.pos.x, vertex.pos.y, vertex.pos.z);
+        });
+      });
+
+      // Aggiungi il corpo rigido dell'oggetto 3D
+      const objectBody = rapier3d.RigidBodyBuilder.newDynamic().build();
+      const objectCollider = rapier3d.ColliderBuilder.convexHull(resultVertices).build();
+      world.addRigidBody(objectBody);
+      world.addCollider(objectCollider, objectBody.handle);
+
+      // Funzione per eseguire un passo della simulazione
+      function step() {
+        world.step();
+        // Aggiorna la visualizzazione o gestisci eventi fisici
+        requestAnimationFrame(step);
+      }
+
+      // Avvia la simulazione dopo l'inizializzazione
+      step();
+    });
+  </script>
+</body>
+</html>
+
