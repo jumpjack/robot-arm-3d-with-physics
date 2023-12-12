@@ -2,14 +2,12 @@
 import * as THREE from 'three';
 import RAPIER from './rapier3d-compat.js';
 //import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-import {  OrbitControls} from 'https://unpkg.com/three@0.159.0/examples/jsm/controls/OrbitControls.js';
+import {  OrbitControls} from './OrbitControls-149.js';
 
 //import { TransformControls } from 'three/addons/controls/TransformControls.js';
 //import { TransformControls } from 'three/examples/jsm/controls/TransformControls.js';
-import { TransformControls } from 'https://unpkg.com/three@0.159.0/examples/jsm/controls/TransformControls.js';
+import { TransformControls } from './TransformControls-149.js';
 
-//import { OrbitControls } from 'https://unpkg.com/three@0.159.0/examples/jsm/controls/OrbitControls.js';
-//import { TransformControls } from 'https://unpkg.com/three@0.159.0/examples/jsm/controls/TransformControls.js';
 
 import { Robot } from './robot.js'
 import * as utils from './rapier_utils.js'
