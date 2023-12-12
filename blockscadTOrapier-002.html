@@ -9,6 +9,7 @@
   <script type="module">
     import * as rapier3d from './rapier3d-compat.js';
 
+    // Inizializza Rapier3D.js
       // Crea il mondo fisico
       const gravity = new rapier3d.Vector3(0.0, -9.81, 0.0);
       const world = new rapier3d.World(gravity);
@@ -36,11 +37,10 @@
         world.step();
         // Aggiorna la visualizzazione o gestisci eventi fisici
         requestAnimationFrame(step);
- 
+      }
 
       // Avvia la simulazione dopo l'inizializzazione
       step();
-    });
   </script>
 </body>
 </html>
