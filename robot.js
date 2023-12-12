@@ -100,7 +100,8 @@ euler.setFromQuaternion(threeQuaternion);
 const pitch = euler.x;
 const yaw = euler.y;
 const roll = euler.z;
-debugShow(pitch*180/3.14 + ", " +yaw*180/3.14 + ", " + roll*180/3.14);
+            
+spnDebug.innerHTML = pitch*180/3.14 + ", " +yaw*180/3.14 + ", " + roll*180/3.14);
             
             let q1 = new THREE.Quaternion();
             q1.set(q.x, q.y, q.z, q.w);
