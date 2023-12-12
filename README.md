@@ -5,7 +5,7 @@
 ![image](https://github.com/jumpjack/robot-arm-3d-with-physics/assets/1620953/0d7191ae-c2b9-48e7-9c67-666c64cf943c)
 
 
-Live demo [here](https://jumpjack.github.io/robot-arm-3d-with-physics).
+Live demo [here](https://jumpjack.github.io/robot-arm-3d-with-physics) (original [here](https://grgv.xyz/demo/ranger_demo_mar_2023/))
 
 You can move the grip using the mouse and see the linkage follow it. No need for inverse kinematic implementation.
 
