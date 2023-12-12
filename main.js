@@ -1,6 +1,6 @@
 
 import * as THREE from 'three';
-import RAPIER from './rapier3d-compat';
+import RAPIER from './rapier3d-compat.js';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { TransformControls } from 'three/addons/controls/TransformControls.js';
 import { Robot } from './robot.js'
