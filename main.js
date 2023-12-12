@@ -102,6 +102,7 @@ async function init() {
     transform_ctrl.addEventListener('change', render);
     transform_ctrl.addEventListener('dragging-changed', function (event) {
         controls.enabled = ! event.value;
+        spnDebug.innerHTML = "";
     });
     transform_ctrl.size = 0.75
     transform_ctrl.setSpace("local");
@@ -209,7 +210,7 @@ function render() {
     robot.setPlatformRotation(target_rotation);
     robot.setGripperRotation(pointer_target);
 
-    spnDebug.innerHTML = "";
+    
     renderer.render(scene, camera);
 }
 
