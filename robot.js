@@ -1,6 +1,6 @@
 
 import * as THREE from 'three';
-import RAPIER from './rapier3d-compat';
+import RAPIER from './rapier3d-compat.js';
 import * as utils from './rapier_utils.js'
 
 export class Robot {
