@@ -49,8 +49,8 @@ async function init() {
 
     window.addEventListener('resize', function() {
 
-        let w = window.visualViewport.width;
-        let h = window.visualViewport.height;
+        let w = 640; //window.visualViewport.width;
+        let h = 480; //window.visualViewport.height;
 
         // console.log("resize", w, h, window.innerWidth, window.innerHeight);
 
@@ -215,6 +215,7 @@ function render() {
 window.addEventListener('keyup', function(event) {
     if (event.code == "KeyW" || event.code == "KeyS") {
         target_direction.set(0, 0, 0);
+console.log("Robot=",robot);        
     }
     if (event.code == "KeyA" || event.code == "KeyD") {
         let R = robot.base.r.rotation();
