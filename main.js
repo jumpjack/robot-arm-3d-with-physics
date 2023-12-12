@@ -56,8 +56,7 @@ async function init() {
 
         camera.aspect = w / h;
         camera.updateProjectionMatrix();
-        renderer.setSize(w, h);
-        spnDebug.innerHTML = "";
+        renderer.setSize(w, h);        
         render();
     });
 
@@ -210,13 +209,13 @@ function render() {
     robot.setPlatformRotation(target_rotation);
     robot.setGripperRotation(pointer_target);
 
+    spnDebug.innerHTML = "";
     renderer.render(scene, camera);
 }
 
 window.addEventListener('keyup', function(event) {
     if (event.code == "KeyW" || event.code == "KeyS") {
-        target_direction.set(0, 0, 0);
-console.log("Robot=",robot);        
+        target_direction.set(0, 0, 0);    
     }
     if (event.code == "KeyA" || event.code == "KeyD") {
         let R = robot.base.r.rotation();
