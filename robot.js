@@ -85,7 +85,7 @@ export class Robot {
             this.parts[i].r.wakeUp();
 
             let q = this.parts[i].r.rotation();
-console.log(q,  this.parts[i]);
+console.log( this.parts[i], this.parts[i].r.getOrientation());
 //debugShow(q);
             let q1 = new THREE.Quaternion();
             q1.set(q.x, q.y, q.z, q.w);
