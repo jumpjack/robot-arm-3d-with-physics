@@ -25,7 +25,7 @@ let eventQueue;
 let ground_collider;
 let boxes = [];
 
-//let robot;
+let robot;
 let target_direction = new THREE.Vector3();
 let target_rotation = new THREE.Quaternion();
 
