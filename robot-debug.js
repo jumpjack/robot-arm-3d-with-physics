@@ -36,7 +36,7 @@ export class Robot {
         this.indicator = utils.addBody("dynamic", "cuboid", world, this.base.m, 0, 0, -1, r_d, 0.02, 0.02, 0.02, 0, 0, 0, 0x0000ff);
         this.arm_base = utils.addBody("dynamic", "cuboid", world, this.mast.m, 0, 0, -1, r_d, arm_w*4, this.mast.w*Math.sqrt(2), this.mast.w*Math.sqrt(2), 0, 0, 0, 0xff0000);
         this.shoulder = utils.addBody("dynamic", "cuboid", world, this.arm_base.m, 0, 0, -1, r_d, arm_w, arm_w, 0.4, 0, 0, 0, 0x00ff00);
-           this.shoulder2 = utils.addBody("dynamic", "cuboid", world, this.arm_base.m, 0, 0, -1, r_d, 0.1, 0.2, 0.2, 0, 0, 0, 0x888888);
+           this.shoulder2 = utils.addBody("dynamic", "cuboid", world, this.arm_base.m, 0, 0, -1, r_d, 0.1, 0.4, 0.9, 0, 0, 0, 0x888888);
         this.elbow = utils.addBody("dynamic", "cuboid", world, this.shoulder2.m, 0, 0, -1, r_d, arm_w, arm_w, 0.2, 0, 0, 0, 0x0000ff);
         this.forearm = utils.addBody("dynamic", "cuboid", world, this.elbow.m, 0, 0, -1, r_d, arm_w, arm_w, 0.2, 0, 0, 0, 0xffff00);
         this.wrist = utils.addBody("dynamic", "cuboid", world, this.forearm.m, 0, 0, -1, r_d, arm_w, arm_w, 0.1);
@@ -108,13 +108,21 @@ export class Robot {
     return j;
 }
 
+function revoluteJoint(world, r1, r2, axis, x1=0, y1=0, z1=0, x2=0, y2=0, z2=0) {
+    let j = world.createImpulseJoint(RAPIER.JointData.revolute(
+        {x: x1, y: y1, z: z1}, {x: x2, y: y2, z: z2}, axis), r1.r, r2.r, true);
+    j.r1 = r1;
+    j.r2 = r2;
+    return j;
+}
+
 ******************/
 
         this.j0 = utils.fixedJoint(world, this.base, this.mast, 0, this.base.h/2, 0, 0, -this.mast.h/2, 0);
         this.ji = utils.fixedJoint(world, this.base, this.indicator, 0, this.base.h/2, this.base.w/2);
         this.j1 = utils.revoluteJoint(world, this.mast, this.arm_base, y, 0, 0, 0, -arm_w*0.75, 0, 0);
         this.j2 = utils.revoluteJoint(world, this.arm_base, this.shoulder, x, this.arm_base.w/2, 0, 0, -arm_w/2, 0, -this.shoulder.d/2);
-          this.j2b = utils.revoluteJoint(world, this.arm_base, this.shoulder2, x,  -arm_w/2, 0, this.shoulder.d/2-arm_w/2,  arm_w/2, 0, -this.elbow.d/2);
+          this.j2b = utils.revoluteJoint(world, this.shoulder, this.shoulder2, x,  -arm_w/2, 0, this.shoulder.d/2-arm_w/2,  arm_w/2, 0, -this.elbow.d/2);
         this.j3 = utils.revoluteJoint(world, this.shoulder, this.elbow, x,  -arm_w/2, 0, this.shoulder.d/2-arm_w/2,  arm_w/2, 0, -this.elbow.d/2);
         this.j4 = utils.revoluteJoint(world, this.elbow, this.forearm, z, 0, 0, this.elbow.d/2, 0, 0, -this.forearm.d/2);
         this.j5 = utils.revoluteJoint(world, this.forearm, this.wrist, x, arm_w/2, 0, this.forearm.d/2-arm_w/2, -arm_w/2, 0, -this.wrist.d/2);
