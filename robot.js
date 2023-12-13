@@ -25,7 +25,7 @@ export class Robot {
 
         let arm_w = 0.05;
         this.base = utils.addBody("position", "cuboid", world, scene, 1, 100, -1, r_d, 0.4, 0.15, 0.4);
-        this.mast = utils.addBody("dynamic", "cuboid", world, this.base.m, 1, 100, -1, r_d, 0.075, 1.5, 0.075);
+        this.mast = utils.addBody("dynamic", "cuboid", world, this.base.m, 1, 100, -3, r_d, 0.075, 1.5, 0.075);
         this.indicator = utils.addBody("dynamic", "cuboid", world, this.base.m, 0, 0, -1, r_d, 0.02, 0.02, 0.02, 0, 0, 0, 0x0000ff);
         this.arm_base = utils.addBody("dynamic", "cuboid", world, this.mast.m, 0, 0, -1, r_d, arm_w*4, this.mast.w*Math.sqrt(2), this.mast.w*Math.sqrt(2), 0, 0, 0, 0xff0000);
         this.shoulder = utils.addBody("dynamic", "cuboid", world, this.arm_base.m, 0, 0, -1, r_d, arm_w, arm_w, 0.4, 0, 0, 0, 0x00ff00);
@@ -285,5 +285,8 @@ const roll = euler.z;
                 stop_arm_motion = true;
             }
         }
+    }
+
+    debugEdit() {
     }
 }
