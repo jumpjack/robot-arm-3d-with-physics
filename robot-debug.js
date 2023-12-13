@@ -122,7 +122,7 @@ function revoluteJoint(world, r1, r2, axis, x1=0, y1=0, z1=0, x2=0, y2=0, z2=0) 
         this.ji = utils.fixedJoint(world, this.base, this.indicator, 0, this.base.h/2, this.base.w/2); // indicator is fixed to base
         this.j1 = utils.revoluteJoint(world, this.mast, this.arm_base, xAxis, 0, 0, 0, -arm_w*0.75, 0, 0);
         this.j2 = utils.revoluteJoint(world, this.arm_base, this.shoulder, zAxis, this.arm_base.w/2, 0, 0, -arm_w/2, 0, -this.shoulder.d/2);
-        this.j3 = utils.revoluteJoint(world, this.shoulder, this.elbow, yAxis,  -arm_w/2, 0, this.shoulder.d/2-arm_w/2,  arm_w/2, 0, -this.elbow.d/2);
+        this.j3 = utils.revoluteJoint(world, this.shoulder, this.elbow, xAxis,  -arm_w/2, 0, this.shoulder.d/2-arm_w/2,  arm_w/2, 0, -this.elbow.d/2);
         this.j4 = utils.fixedJoint(world, this.elbow, this.forearm, 0, 0, this.elbow.d/2, 0, 0, -this.forearm.d/2);
             // utils.revoluteJoint(world, this.elbow, this.forearm, zAxis, 0, 0, this.elbow.d/2, 0, 0, -this.forearm.d/2);
         this.j5 = utils.fixedJoint(world, this.forearm, this.wrist,  arm_w/2, 0, this.forearm.d/2-arm_w/2, -arm_w/2, 0, -this.wrist.d/2)
