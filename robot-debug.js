@@ -129,7 +129,7 @@ function revoluteJoint(world, r1, r2, axis, x1=0, y1=0, z1=0, x2=0, y2=0, z2=0) 
         this.j5 = utils.revoluteJoint(world, this.forearm, this.wrist, x, arm_w/2, 0, this.forearm.d/2-arm_w/2, -arm_w/2, 0, -this.wrist.d/2);
         this.j6 = utils.revoluteJoint(world, this.wrist, this.g3, z, 0, 0, this.wrist.d/2, 0, 0, -this.g3.d/2);
 
-        this.joints.push(this.j0, this.j1, this.j2, this.j3, this.j4, this.j5, this.j6, this.jother);
+        this.joints.push(this.j0, this.jother, this.j1, this.j2, this.j3, this.j4, this.j5, this.j6);
         this.j1.setContactsEnabled(false);
         this.ji.setContactsEnabled(false);
     }
