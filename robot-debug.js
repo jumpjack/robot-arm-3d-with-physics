@@ -36,7 +36,7 @@ export class Robot {
         this.indicator = utils.addBody("dynamic", "cuboid", world, this.base.m, 0, 0, -1, r_d, 0.02, 0.02, 0.02, 0, 0, 0, 0x0000ff);
         this.arm_base = utils.addBody("dynamic", "cuboid", world, this.mast.m, 0, 0, -1, r_d, arm_w*4, this.mast.w*Math.sqrt(2), this.mast.w*Math.sqrt(2), 0, 0, 0, 0xff0000);
         this.shoulder = utils.addBody("dynamic", "cuboid", world, this.arm_base.m, 0, 0, -1, r_d, arm_w, arm_w, 0.4, 0, 0, 0, 0x00ff00);
-           this.shoulder2 = utils.addBody("dynamic", "cuboid", world, this.arm_base.m, 0, 0, -1, r_d, 0.4, 0.4, 0.4, 0, 0, 0, 0xaaaaaa);
+           this.shoulder2 = utils.addBody("dynamic", "cuboid", world, this.arm_base.m, 0, 0, -1, r_d, 1, 1, 0.2, 0, 0, 0, 0xaaaaaa);
         this.elbow = utils.addBody("dynamic", "cuboid", world, this.shoulder2.m, 0, 0, -1, r_d, arm_w, arm_w, 0.2, 0, 0, 0, 0x0000ff);
         this.forearm = utils.addBody("dynamic", "cuboid", world, this.elbow.m, 0, 0, -1, r_d, arm_w, arm_w, 0.2, 0, 0, 0, 0xffff00);
         this.wrist = utils.addBody("dynamic", "cuboid", world, this.forearm.m, 0, 0, -1, r_d, arm_w, arm_w, 0.1);
@@ -114,7 +114,7 @@ export class Robot {
         this.ji = utils.fixedJoint(world, this.base, this.indicator, 0, this.base.h/2, this.base.w/2);
         this.j1 = utils.revoluteJoint(world, this.mast, this.arm_base, y, 0, 0, 0, -arm_w*0.75, 0, 0);
         this.j2 = utils.revoluteJoint(world, this.arm_base, this.shoulder, x, this.arm_base.w/2, 0, 0, -arm_w/2, 0, -this.shoulder.d/2);
-          this.j2b = utils.revoluteJoint(world, this.shoulder, this.shoulder2, x,  -arm_w/2, 0, this.shoulder.d/2-arm_w/2,  arm_w/2, 0, -this.elbow.d/2);
+          this.j2b = utils.revoluteJoint(world, this.arm_base, this.shoulder2, x,  -arm_w/2, 0, this.shoulder.d/2-arm_w/2,  arm_w/2, 0, -this.elbow.d/2);
         this.j3 = utils.revoluteJoint(world, this.shoulder, this.elbow, x,  -arm_w/2, 0, this.shoulder.d/2-arm_w/2,  arm_w/2, 0, -this.elbow.d/2);
         this.j4 = utils.revoluteJoint(world, this.elbow, this.forearm, z, 0, 0, this.elbow.d/2, 0, 0, -this.forearm.d/2);
         this.j5 = utils.revoluteJoint(world, this.forearm, this.wrist, x, arm_w/2, 0, this.forearm.d/2-arm_w/2, -arm_w/2, 0, -this.wrist.d/2);
