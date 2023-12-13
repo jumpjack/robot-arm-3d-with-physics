@@ -71,9 +71,9 @@ export class Robot {
         this.g2.c.attached = true;
         this.g2_pad.c.attached = true;
 
-        let x = {x: 1.0, y: 0.0, z: 0.0};
-        let y = {x: 0.0, y: 1.0, z: 0.0};
-        let z = {x: 0.0, y: 0.0, z: 1.0};
+        let xAxis = {x: 1.0, y: 0.0, z: 0.0};
+        let yAxis = {x: 0.0, y: 1.0, z: 0.0};
+        let zAxis = {x: 0.0, y: 0.0, z: 1.0};
 
       // Define joints:
 
@@ -120,12 +120,12 @@ function revoluteJoint(world, r1, r2, axis, x1=0, y1=0, z1=0, x2=0, y2=0, z2=0) 
 
         this.j0 = utils.fixedJoint(world, this.base, this.mast, 0, this.base.h/2, 0, 0, -this.mast.h/2, 0);
         this.ji = utils.fixedJoint(world, this.base, this.indicator, 0, this.base.h/2, this.base.w/2); // indicator is fixed to base
-        this.j1 = utils.revoluteJoint(world, this.mast, this.arm_base, x, 0, 0, 0, -arm_w*0.75, 0, 0);
-        this.j2 = utils.revoluteJoint(world, this.arm_base, this.shoulder, y, this.arm_base.w/2, 0, 0, -arm_w/2, 0, -this.shoulder.d/2);
-        this.j3 = utils.revoluteJoint(world, this.shoulder, this.elbow, y,  -arm_w/2, 0, this.shoulder.d/2-arm_w/2,  arm_w/2, 0, -this.elbow.d/2);
-        this.j4 = utils.revoluteJoint(world, this.elbow, this.forearm, z, 0, 0, this.elbow.d/2, 0, 0, -this.forearm.d/2);
-        this.j5 = utils.revoluteJoint(world, this.forearm, this.wrist, x, arm_w/2, 0, this.forearm.d/2-arm_w/2, -arm_w/2, 0, -this.wrist.d/2);
-        this.j6 = utils.revoluteJoint(world, this.wrist, this.g3, z, 0, 0, this.wrist.d/2, 0, 0, -this.g3.d/2);
+        this.j1 = utils.revoluteJoint(world, this.mast, this.arm_base, xAxis, 0, 0, 0, -arm_w*0.75, 0, 0);
+        this.j2 = utils.revoluteJoint(world, this.arm_base, this.shoulder, zAxis, this.arm_base.w/2, 0, 0, -arm_w/2, 0, -this.shoulder.d/2);
+        this.j3 = utils.revoluteJoint(world, this.shoulder, this.elbow, yAxis,  -arm_w/2, 0, this.shoulder.d/2-arm_w/2,  arm_w/2, 0, -this.elbow.d/2);
+        this.j4 = utils.revoluteJoint(world, this.elbow, this.forearm, zAxis, 0, 0, this.elbow.d/2, 0, 0, -this.forearm.d/2);
+        this.j5 = utils.revoluteJoint(world, this.forearm, this.wrist, xAxis, arm_w/2, 0, this.forearm.d/2-arm_w/2, -arm_w/2, 0, -this.wrist.d/2);
+        this.j6 = utils.revoluteJoint(world, this.wrist, this.g3, zAxis, 0, 0, this.wrist.d/2, 0, 0, -this.g3.d/2);
 
         this.joints.push(this.j0,  this.j1, this.j2, this.j3, this.j4, this.j5, this.j6);
         this.j1.setContactsEnabled(false);
