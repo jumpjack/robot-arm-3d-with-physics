@@ -37,7 +37,7 @@ export class Robot {
         this.indicator = utils.addBody("dynamic", "cuboid", world, this.base.m, 0, 0, -1, r_d, 0.02, 0.02, 0.02, 0, 0, 0, 0x0000ff);
         this.arm_base = utils.addBody("dynamic", "cuboid", world, this.mast.m, 0, 0, -1, r_d, arm_w*4, this.mast.w*Math.sqrt(2), this.mast.w*Math.sqrt(2), 0, 0, 0, 0xff0000);
         this.shoulder = utils.addBody("dynamic", "cuboid", world, this.arm_base.m, 0, 0, -1, r_d, arm_w, arm_w, 0.4, 0, 0, 0, 0x00ff00);
-        this.elbow = utils.addBody("dynamic", "cuboid", world, this.shoulder.m, 0, 0, -1, r_d, arm_w, arm_w, 0.2, 0, 0, 0, 0x0000ff);
+        this.elbow = utils.addBody("dynamic", "cuboid", world, this.shoulder.m, 0, 0, -1, r_d, arm_w, arm_w, arm_w, 0, 0, 0, 0x0000ff);
         this.forearm = utils.addBody("dynamic", "cuboid", world, this.elbow.m, 0, 0, -1, r_d, arm_w, arm_w, 0.2, 0, 0, 0, 0xffff00);
         this.wrist = utils.addBody("dynamic", "cuboid", world, this.forearm.m, 0, 0, -1, r_d, arm_w, arm_w, 0.1, 0, 0, 0, 0xffffff);
 
