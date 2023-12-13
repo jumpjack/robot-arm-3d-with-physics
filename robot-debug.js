@@ -39,7 +39,7 @@ export class Robot {
         this.shoulder = utils.addBody("dynamic", "cuboid", world, this.arm_base.m, 0, 0, -1, r_d, arm_w, arm_w, 0.4, 0, 0, 0, 0x00ff00);
         this.elbow = utils.addBody("dynamic", "cuboid", world, this.shoulder.m, 0, 0, -1, r_d, arm_w, arm_w, 0.2, 0, 0, 0, 0x0000ff);
         this.forearm = utils.addBody("dynamic", "cuboid", world, this.elbow.m, 0, 0, -1, r_d, arm_w, arm_w, 0.2, 0, 0, 0, 0xffff00);
-        this.wrist = utils.addBody("dynamic", "cuboid", world, this.forearm.m, 0, 0, -1, r_d, arm_w, arm_w, 0.1);
+        this.wrist = utils.addBody("dynamic", "cuboid", world, this.forearm.m, 0, 0, -1, r_d, arm_w, arm_w, 0.1, 0, 0, 0, 0xffffff);
 
       // First piece of grip; independent from any other, hence the parent is the scene
         this.g3 = utils.addBody("position", "cuboid", world, scene, 0, 0, -1, r_d, 0.16, arm_w, 0.02, 0.5, 0.5, 0.5);
@@ -119,7 +119,7 @@ function revoluteJoint(world, r1, r2, axis, x1=0, y1=0, z1=0, x2=0, y2=0, z2=0) 
 ******************/
 
         this.j0 = utils.fixedJoint(world, this.base, this.mast, 0, this.base.h/2, 0, 0, -this.mast.h/2, 0);
-        this.ji = utils.fixedJoint(world, this.base, this.indicator, 0, this.base.h/2, this.base.w/2);
+        this.ji = utils.fixedJoint(world, this.base, this.indicator, 0, this.base.h/2, this.base.w/2); // indicator is fixed to base
         this.j1 = utils.revoluteJoint(world, this.mast, this.arm_base, x, 0, 0, 0, -arm_w*0.75, 0, 0);
         this.j2 = utils.revoluteJoint(world, this.arm_base, this.shoulder, y, this.arm_base.w/2, 0, 0, -arm_w/2, 0, -this.shoulder.d/2);
         this.j3 = utils.revoluteJoint(world, this.shoulder, this.elbow, y,  -arm_w/2, 0, this.shoulder.d/2-arm_w/2,  arm_w/2, 0, -this.elbow.d/2);
