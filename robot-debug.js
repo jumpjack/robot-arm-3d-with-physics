@@ -57,7 +57,7 @@ export class Robot {
         this.g1_pad.m.position.set(0.01/2+0.001/2, 0, 0);
         this.g2_pad.m.position.set(-0.01/2-0.001/2, 0, 0);
 
-        this.parts.push(this.base, this.mast, this.indicator, this.arm_base, this.shoulder, this.shoulder2,
+        this.parts.push(this.base, this.mast, this.indicator, this.arm_base, this.shoulder,
             this.elbow, this.forearm, this.wrist, this.g3, this.g1, this.g2, this.g1_pad, this.g2_pad);
         for (let i in this.parts) {
             this.parts[i].c.is_robot = true;
