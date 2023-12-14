@@ -3,6 +3,7 @@ import * as THREE from './three.module-149.js';
 import RAPIER from './rapier3d-compat.js';
 import * as utils from './rapier_utils.js'
 
+
 export class Robot {
 
     constructor(world, scene) {
@@ -24,29 +25,40 @@ export class Robot {
         this.gripper = world.createCharacterController(0.01);
 
         let arm_w = 0.05;
+
+      // All the parts of the arm are created by size (width, height, depth), but only grip is positioned; then the physics engine calculates the positions
+      // as consequences of jonts positions and types.
+
+      // Static base:
         this.base = utils.addBody("position", "cuboid", world, scene, 1, 100, -1, r_d, 0.4, 0.15, 0.4);
+
+      // Moving parts:
         this.mast = utils.addBody("dynamic", "cuboid", world, this.base.m, 1, 100, -1, r_d, 0.075, 1.5, 0.075, 0, 0, 0, 0xff00ff);
         this.indicator = utils.addBody("dynamic", "cuboid", world, this.base.m, 0, 0, -1, r_d, 0.02, 0.02, 0.02, 0, 0, 0, 0x0000ff);
         this.arm_base = utils.addBody("dynamic", "cuboid", world, this.mast.m, 0, 0, -1, r_d, arm_w*4, this.mast.w*Math.sqrt(2), this.mast.w*Math.sqrt(2), 0, 0, 0, 0xff0000);
         this.shoulder = utils.addBody("dynamic", "cuboid", world, this.arm_base.m, 0, 0, -1, r_d, arm_w, arm_w, 0.4, 0, 0, 0, 0x00ff00);
-        this.elbow = utils.addBody("dynamic", "cuboid", world, this.shoulder.m, 0, 0, -1, r_d, arm_w, arm_w, 0.2, 0, 0, 0, 0x0000ff);
-        this.forearm = utils.addBody("dynamic", "cuboid", world, this.elbow.m, 0, 0, -1, r_d, arm_w, arm_w, 0.2, 0, 0, 0, 0xffff00);
-        this.wrist = utils.addBody("dynamic", "cuboid", world, this.forearm.m, 0, 0, -1, r_d, arm_w, arm_w, 0.1);
+       // this.elbow = utils.addBody("dynamic", "cuboid", world, this.shoulder.m, 0, 0, -1, r_d, arm_w, arm_w, arm_w, 0, 0, 0, 0x0000ff);
+       // this.forearm = utils.addBody("dynamic", "cuboid", world, this.elbow.m, 0, 0, -1, r_d, arm_w, arm_w, 0.2, 0, 0, 0, 0xffff00);
+        this.wrist = utils.addBody("dynamic", "cuboid", world, this.shoulder.m, 0, 0, -1, r_d, arm_w, arm_w, 0.1, 0, 0, 0, 0xffffff);
+
+      // First piece of grip; independent from any other, hence the parent is the scene
         this.g3 = utils.addBody("position", "cuboid", world, scene, 0, 0, -1, r_d, 0.16, arm_w, 0.02, 0.5, 0.5, 0.5);
         this.g3.m.position.set(0.5, 0.5, 0.5);
 
+     // Second and third piece of grip, depending from previous one "g3"
         this.g1 = utils.addBody("position", "cuboid", world, this.g3.m, 0, 0, gripper_f, r_d, 0.01, 0.05, 0.1);
         this.g2 = utils.addBody("position", "cuboid", world, this.g3.m, 0, 0, gripper_f, r_d, 0.01, 0.05, 0.1);
         this.g1.m.position.set(this.gripper_open_1, 0, this.g1.d/2+this.g3.d/2);
         this.g2.m.position.set(this.gripper_open_2, 0, this.g2.d/2+this.g3.d/2);
 
+      // Last 2 pieces:
         this.g1_pad = utils.addBody("position", "cuboid", world, this.g1.m, 0, 0, gripper_f, r_d, 0.001, 0.05, 0.1, 0, 0, 0, 0xffffff);
         this.g2_pad = utils.addBody("position", "cuboid", world, this.g2.m, 0, 0, gripper_f, r_d, 0.001, 0.05, 0.1, 0, 0, 0, 0xffffff);
         this.g1_pad.m.position.set(0.01/2+0.001/2, 0, 0);
         this.g2_pad.m.position.set(-0.01/2-0.001/2, 0, 0);
 
         this.parts.push(this.base, this.mast, this.indicator, this.arm_base, this.shoulder,
-            this.elbow, this.forearm, this.wrist, this.g3, this.g1, this.g2, this.g1_pad, this.g2_pad);
+            /*this.elbow, this.forearm, */ this.wrist, this.g3, this.g1, this.g2, this.g1_pad, this.g2_pad);
         for (let i in this.parts) {
             this.parts[i].c.is_robot = true;
             this.parts[i].c.setActiveEvents(RAPIER.ActiveEvents.COLLISION_EVENTS);
@@ -59,20 +71,66 @@ export class Robot {
         this.g2.c.attached = true;
         this.g2_pad.c.attached = true;
 
-        let x = {x: 1.0, y: 0.0, z: 0.0};
-        let y = {x: 0.0, y: 1.0, z: 0.0};
-        let z = {x: 0.0, y: 0.0, z: 1.0};
+        let xAxis = {x: 1.0, y: 0.0, z: 0.0};
+        let yAxis = {x: 0.0, y: 1.0, z: 0.0};
+        let zAxis = {x: 0.0, y: 0.0, z: 1.0};
+
+      // Define joints:
+
+/******************
+    Structure of r1 and r2 (created by addBody()):
+    {
+        r: rigid_body,
+        c: collider,
+        m: cd.m,
+        i: cd.m.geometry.parameters,
+        t: type,
+        w: width,
+        h: height,
+        d: depth
+    }
+
+ function fixedJoint(world, r1, r2, x1=0, y1=0, z1=0, x2=0, y2=0, z2=0)       
+    let j = world.createImpulseJoint( 
+        RAPIER.JointData.fixed(
+          // params: JointData
+            {x: x1, y: y1, z: z1},             // anchor1: Vector
+            {w: 1.0, x: 0.0, y: 0.0, z: 0.0},  // frame1: Rotation
+            {x: x2, y: y2, z: z2},             // anchor2: Vector
+            {w: 1.0, x: 0.0, y: 0.0, z: 0.0}   // frame2: Rotation
+            ), 
+        r1.r, // parent1: RigidBody
+        r2.r, // parent2: RigidBody
+        true  // wakeUp: boolean
+    );
+    j.r1 = r1;
+    j.r2 = r2;
+    return j;
+}
+
+function revoluteJoint(world, r1, r2, axis, x1=0, y1=0, z1=0, x2=0, y2=0, z2=0) {
+    let j = world.createImpulseJoint(RAPIER.JointData.revolute(
+        {x: x1, y: y1, z: z1}, {x: x2, y: y2, z: z2}, axis), r1.r, r2.r, true);
+    j.r1 = r1;
+    j.r2 = r2;
+    return j;
+}
+
+******************/
 
         this.j0 = utils.fixedJoint(world, this.base, this.mast, 0, this.base.h/2, 0, 0, -this.mast.h/2, 0);
-        this.ji = utils.fixedJoint(world, this.base, this.indicator, 0, this.base.h/2, this.base.w/2);
-        this.j1 = utils.revoluteJoint(world, this.mast, this.arm_base, y, 0, 0, 0, -arm_w*0.75, 0, 0);
-        this.j2 = utils.revoluteJoint(world, this.arm_base, this.shoulder, x, this.arm_base.w/2, 0, 0, -arm_w/2, 0, -this.shoulder.d/2);
-        this.j3 = utils.revoluteJoint(world, this.shoulder, this.elbow, x,  -arm_w/2, 0, this.shoulder.d/2-arm_w/2,  arm_w/2, 0, -this.elbow.d/2);
-        this.j4 = utils.revoluteJoint(world, this.elbow, this.forearm, z, 0, 0, this.elbow.d/2, 0, 0, -this.forearm.d/2);
-        this.j5 = utils.revoluteJoint(world, this.forearm, this.wrist, x, arm_w/2, 0, this.forearm.d/2-arm_w/2, -arm_w/2, 0, -this.wrist.d/2);
-        this.j6 = utils.revoluteJoint(world, this.wrist, this.g3, z, 0, 0, this.wrist.d/2, 0, 0, -this.g3.d/2);
+        this.ji = utils.fixedJoint(world, this.base, this.indicator, 0, this.base.h/2, this.base.w/2); // indicator is fixed to base
+        this.j1 = utils.revoluteJoint(world, this.mast, this.arm_base, xAxis, 0, 0, 0, -arm_w*0.75, 0, 0);
+        this.j2 = utils.revoluteJoint(world, this.arm_base, this.shoulder, zAxis, this.arm_base.w/2, 0, 0, -arm_w/2, 0, -this.shoulder.d/2);
+        this.j3 = utils.revoluteJoint(world, this.shoulder, this.wrist, xAxis,  -arm_w/2, 0, this.shoulder.d/2-arm_w/2,  arm_w/2, 0, -this.shoulder.d/2);
+        //this.j4 = utils.fixedJoint(world, this.elbow, this.wrist, 0, 0, this.elbow.d/2, 0, 0, -this.forearm.d/2);
+            // utils.revoluteJoint(world, this.elbow, this.forearm, zAxis, 0, 0, this.elbow.d/2, 0, 0, -this.forearm.d/2);
+        //this.j5 = utils.fixedJoint(world, this.forearm, this.wrist,  arm_w/2, 0, this.forearm.d/2-arm_w/2, -arm_w/2, 0, -this.wrist.d/2)
+            // utils.revoluteJoint(world, this.forearm, this.wrist, xAxis, arm_w/2, 0, this.forearm.d/2-arm_w/2, -arm_w/2, 0, -this.wrist.d/2);
+        this.j6 = utils.fixedJoint(world, this.wrist, this.g3,  0, 0, this.wrist.d/2, 0, 0, -this.g3.d/2)
+            //utils.revoluteJoint(world, this.wrist, this.g3, zAxis, 0, 0, this.wrist.d/2, 0, 0, -this.g3.d/2);
 
-        this.joints.push(this.j0, this.j1, this.j2, this.j3, this.j4, this.j5, this.j6);
+        this.joints.push(this.j0,  this.j1, this.j2, this.j3 /*, this.j4, this.j5*/, this.j6 );
         this.j1.setContactsEnabled(false);
         this.ji.setContactsEnabled(false);
     }
