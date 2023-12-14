@@ -1,16 +1,13 @@
 
 import * as THREE from './three.module-149.js';
 import RAPIER from './rapier3d-compat.js';
-//import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-import {  OrbitControls} from './OrbitControls-149.js';
+import * as utils from './rapier_utils.js'
 
-//import { TransformControls } from 'three/addons/controls/TransformControls.js';
-//import { TransformControls } from 'three/examples/jsm/controls/TransformControls.js';
+import {  OrbitControls} from './OrbitControls-149.js';
 import { TransformControls } from './TransformControls-149.js';
 
 
-import { Robot } from './robot.js'
-import * as utils from './rapier_utils.js'
+import { Robot } from './robot-debug.js'
 
 let container;
 let spnDebug;
@@ -281,6 +278,5 @@ window.addEventListener('keydown', function(event) {
         target_rotation = q;
     }
 });
-
 
 
