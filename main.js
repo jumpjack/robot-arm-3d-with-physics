@@ -7,7 +7,7 @@ import {  OrbitControls} from './OrbitControls-149.js';
 import { TransformControls } from './TransformControls-149.js';
 
 
-import { Robot } from './robot-debug.js'
+import { Robot } from './robot.js'
 
 let container;
 let spnDebug;
